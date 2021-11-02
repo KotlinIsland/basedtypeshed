@@ -375,12 +375,15 @@ def coroutine(func: Callable[..., Any]) -> CoroutineType[Any, Any, Any]: ...
 if sys.version_info >= (3, 8):
     CellType = _Cell
 
+_Origin = TypeVar("_Origin", bound=type)
+_Args = TypeVar("_Args", bound=tuple[object, ...])
+
 if sys.version_info >= (3, 9):
-    class GenericAlias:
-        __origin__: type
-        __args__: Tuple[Any, ...]
+    class GenericAlias(Generic[_Origin, _Args]):
+        __origin__: _Origin
+        __args__: _Args
         __parameters__: Tuple[Any, ...]
-        def __init__(self, origin: type, args: Any) -> None: ...
+        def __init__(self, origin: _Origin, args: _Args) -> None: ...
         def __getattr__(self, name: str) -> Any: ...  # incomplete
 
 if sys.version_info >= (3, 10):
