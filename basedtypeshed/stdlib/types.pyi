@@ -78,7 +78,7 @@ class _Cell:
 
 # Make sure this class definition stays roughly in line with `builtins.function`
 @final
-class FunctionType:
+class FunctionType(Callable):
     @property
     def __closure__(self) -> tuple[_Cell, ...] | None: ...
     __code__: CodeType
@@ -437,7 +437,7 @@ class _StaticFunctionType:
     def __get__(self, obj: object | None, type: type | None) -> FunctionType: ...
 
 @final
-class MethodType:
+class MethodType(Callable):
     @property
     def __closure__(self) -> tuple[_Cell, ...] | None: ...  # inherited from the added function
     @property
@@ -454,7 +454,7 @@ class MethodType:
     def __call__(self, *args: Any, **kwargs: Any) -> Any: ...
 
 @final
-class BuiltinFunctionType:
+class BuiltinFunctionType(Callable):
     @property
     def __self__(self) -> object | ModuleType: ...
     @property
@@ -467,7 +467,7 @@ BuiltinMethodType = BuiltinFunctionType
 
 if sys.version_info >= (3, 7):
     @final
-    class WrapperDescriptorType:
+    class WrapperDescriptorType(Callable):
         @property
         def __name__(self) -> str: ...
         @property
@@ -478,7 +478,7 @@ if sys.version_info >= (3, 7):
         def __get__(self, __obj: Any, __type: type = ...) -> Any: ...
 
     @final
-    class MethodWrapperType:
+    class MethodWrapperType(Callable):
         @property
         def __self__(self) -> object: ...
         @property
@@ -492,7 +492,7 @@ if sys.version_info >= (3, 7):
         def __ne__(self, __other: object) -> bool: ...
 
     @final
-    class MethodDescriptorType:
+    class MethodDescriptorType(Callable):
         @property
         def __name__(self) -> str: ...
         @property
@@ -503,7 +503,7 @@ if sys.version_info >= (3, 7):
         def __get__(self, obj: Any, type: type = ...) -> Any: ...
 
     @final
-    class ClassMethodDescriptorType:
+    class ClassMethodDescriptorType(Callable):
         @property
         def __name__(self) -> str: ...
         @property
